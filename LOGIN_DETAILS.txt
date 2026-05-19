@@ -1,0 +1,15 @@
+MCA WITH INFORMATION SECURITY & CYBER DEFENCE LMS LOGIN DETAILS
+
+USER ACCOUNT PAGE REMOVED FROM LMS NAVIGATION.
+
+STUDENTS:
+mcais26-ai-01 to mcais26-ai-10
+Password: mcais@2026
+
+FACULTY:
+Username: mcais26-fac-divya
+Password: faculty@2026
+
+ADMIN:
+Username: mcais26-admin
+Password: admin@2026

@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Faculty Dashboard — MCA with Information Security & Cyber Defence</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6fb;color:#1a1a2e}
+header{background:linear-gradient(135deg,#0f3460,#16213e);color:#fff;padding:18px 32px}
+header h1{font-size:1.4rem;font-weight:700}
+header p{font-size:.82rem;opacity:.85;margin-top:4px}
+nav{background:#16213e;display:flex;flex-wrap:wrap;gap:4px;padding:8px 32px}
+nav a{color:#e0e0e0;text-decoration:none;padding:7px 14px;border-radius:4px;font-size:.85rem;transition:.2s}
+nav a:hover,nav a.active{background:#0f3460;color:#fff}
+.container{max-width:1100px;margin:28px auto;padding:0 20px}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:24px;margin-bottom:20px}
+.card h2{color:#0f3460;margin-bottom:12px;font-size:1.12rem}
+.card h3{color:#16213e;margin:14px 0 8px;font-size:.98rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{background:#0f3460;color:#fff;padding:9px 12px;text-align:left}
+td{padding:8px 12px;border-bottom:1px solid #eee;vertical-align:top}
+tr:hover td{background:#f0f4ff}
+.badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge-proj{background:#e3f2fd;color:#0f3460}.badge-sec{background:#e8f5e9;color:#1b5e20}.badge-lock{background:#fff3e0;color:#e65100}
+.btn{display:inline-block;padding:8px 18px;background:#0f3460;color:#fff;border-radius:6px;text-decoration:none;font-size:.85rem;margin:4px 2px;border:none;cursor:pointer}
+.btn:hover{background:#16213e}.btn-green{background:#2e7d32}.btn-orange{background:#e65100}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.tile{background:#f8f9ff;border:1px solid #dde3f0;border-radius:10px;padding:18px;text-decoration:none;color:inherit;display:block}
+.tile:hover{background:#e3f2fd;border-color:#0f3460}.tile h3{color:#0f3460;margin-bottom:6px}.tile p{font-size:.85rem;color:#555}
+ul,ol{padding-left:20px;margin:8px 0}li{margin:4px 0;font-size:.9rem;line-height:1.45}
+.phase-box{border-left:4px solid #0f3460;padding:10px 14px;margin:8px 0;background:#f8f9ff;border-radius:0 6px 6px 0}
+.phase-box.ai{border-color:#2e7d32;background:#f1f8f1}.phase-box.warn{border-color:#e65100;background:#fff8f0}
+.hint{font-size:.8rem;color:#666;margin-top:6px}
+.layout{display:flex;min-height:80vh}.sidebar{width:245px;min-width:245px;background:#16213e;padding:16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar p{color:#aaa;font-size:.73rem;text-transform:uppercase;margin-bottom:8px;letter-spacing:.5px}.sidebar a{display:block;padding:8px 12px;text-decoration:none;color:#e0e0e0;font-size:.82rem;border-radius:4px;margin:2px 0}.sidebar a:hover{background:#0f3460;color:#fff}
+.main-content{flex:1;padding:20px;overflow-y:auto}.hour-label{display:inline-block;background:#0f3460;color:#fff;padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:700;white-space:nowrap}
+.week-header{background:linear-gradient(135deg,#0f3460,#16213e);color:#fff;padding:14px 20px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}.week-header h3{font-size:1rem;color:#fff}.week-header .wk-meta{font-size:.8rem;opacity:.85}
+.step-list{list-style:none;padding:0;margin:0}.step-list li{padding:5px 0 5px 18px;position:relative;font-size:.88rem;color:#333;line-height:1.5}.step-list li::before{content:'›';position:absolute;left:0;color:#0f3460;font-weight:700}
+.activity-block{border-left:3px solid #0f3460;padding:8px 12px;margin:6px 0;background:#f8f9ff;border-radius:0 6px 6px 0;font-size:.87rem}.activity-block.student-block{border-color:#2e7d32;background:#f1f8f1}.activity-block.shared-block{border-color:#e65100;background:#fff8f0}.activity-title{font-weight:600;color:#0f3460;font-size:.82rem;margin-bottom:4px}
+.q-block{background:#f8f9ff;border-radius:8px;padding:14px;margin-bottom:14px;border:1px solid #dde3f0}.q-block p{font-weight:600;margin-bottom:8px}.q-block label{display:block;margin:4px 0;cursor:pointer;font-size:.9rem}
+.scenario-box{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:14px;margin-bottom:14px}.scenario-box p{font-weight:600;color:#e65100;margin-bottom:8px}textarea{width:100%;border:1px solid #ccc;border-radius:6px;padding:8px;font-size:.88rem;resize:vertical}.result-box{display:none;padding:12px;border-radius:6px;margin-top:10px;font-weight:600}.pass{background:#e8f5e9;color:#2e7d32;display:block}.fail{background:#ffebee;color:#c62828;display:block}
+.lock-card{border-left:4px solid #e65100;background:#fff8f0}.admin-only,.student-only,#certPracticeArea{display:none}
+footer{text-align:center;padding:18px;font-size:.8rem;color:#888;margin-top:30px}
+#lms-login-overlay{display:none;position:fixed;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#0f172a 100%);z-index:99999;align-items:center;justify-content:center;font-family:'Segoe UI',sans-serif}
+#lms-login-overlay.active{display:flex}.lms-login-box{background:#fff;border-radius:18px;padding:40px 36px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center}.lms-login-box .lms-logo{font-size:2rem;margin-bottom:4px}.lms-login-box h2{font-size:1.25rem;color:#0f172a;margin:0 0 4px}.lms-login-box .lms-subtitle{font-size:.78rem;color:#64748b;margin-bottom:24px}.lms-login-box input{width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.95rem;margin-bottom:12px;outline:none}.lms-login-box button{width:100%;padding:12px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:4px}#lms-login-error{color:#ef4444;font-size:.82rem;margin-top:8px;min-height:18px}.lms-login-box .lms-hint{font-size:.73rem;color:#94a3b8;margin-top:14px;line-height:1.5}.lms-page-content{display:none}.lms-page-content.unlocked{display:block}.lms-logout-btn{position:fixed;top:12px;right:16px;z-index:9999;background:#ef4444;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:.8rem;cursor:pointer;font-weight:600}.lms-welcome-bar{background:#0f172a;color:#94a3b8;font-size:.78rem;text-align:center;padding:5px;letter-spacing:.5px}
+@media(max-width:768px){.layout{flex-direction:column}.sidebar{width:100%;height:auto;position:relative}header,nav{padding-left:18px;padding-right:18px}.container{padding:0 14px}}
+</style></head><body data-restrict="faculty">
+<div id="lms-login-overlay" class="active"><div class="lms-login-box"><div class="lms-logo">🛡️</div><h2>GJIMT MCA InfoSec LMS</h2><div class="lms-subtitle">MCA with Information Security & Cyber Defence · 2026<br>Please sign in to continue</div><input type="text" id="lms-uid" placeholder="User ID" autocomplete="username"><input type="password" id="lms-pwd" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')lmsDoLogin()"><button onclick="lmsDoLogin()">Sign In →</button><div id="lms-login-error"></div><div class="lms-hint">Students: <b>mcais26-ai-01</b> … <b>mcais26-ai-10</b><br>Faculty: <b>mcais26-fac-divya</b><br>Admin: <b>mcais26-admin</b></div></div></div>
+<button class="lms-logout-btn" id="lms-logout-btn" style="display:none" onclick="lmsLogout()">⏻ Sign Out</button><div id="lms-welcome-bar" class="lms-welcome-bar" style="display:none"></div><div id="lms-page-content" class="lms-page-content">
+<header><h1>GJIMT AI Lab — MCA with Information Security & Cyber Defence Sem 1 LMS</h1><p>Computing Foundations + Security Basics · 42-Hour Program · Secure System Baseline Project · Sem 2 Certification Planning · Batch of 10</p></header><nav><a href="index.html" class="">🏠 Home</a><a href="calendar.html" class="">📅 42-Hour Calendar</a><a href="projects.html" class="">📁 Shadow Projects</a><a href="session-guide.html" class="">🗂️ Session Guide</a><a href="mock.html" class="">🔒 Certification (Sem 2)</a><a href="faculty.html" class="active">👩‍🏫 Faculty Dashboard</a><a href="upload-guide.html" class="">📤 Upload Guide</a></nav>
+
+<div class="container">
+  <div class="card">
+    <h2>👩‍🏫 Faculty Dashboard — MCA with Information Security & Cyber Defence, Semester 1</h2>
+    <p>This dashboard provides faculty rubrics, weekly scripts, submission tracking, Friday doubt-session guidance and certification planning access.</p>
+    <p class="hint"><strong>Access rule:</strong> This page is restricted to Faculty/Admin only.</p>
+    <div style="margin-top:12px">
+      <a class="btn" href="#rubrics">📊 Rubrics</a>
+      <a class="btn" href="#scripts">📋 Weekly Scripts</a>
+      <a class="btn" href="#friday">🗓️ Friday Doubt Guide</a>
+      <a class="btn" href="#submissions">📤 Submissions</a>
+      <a class="btn" href="#tracking">📌 Student Tracking</a>
+      <a class="btn btn-green" href="mock.html">🔒 Sem 2 Certification Planning</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📌 Faculty Quick Overview</h2>
+    <div class="grid">
+      <div class="tile"><h3>Shadow Project</h3><p>Google-Style Secure System Baseline Project</p></div>
+      <div class="tile"><h3>Key Skills</h3><p>CIA triad, Linux basics, OS hardening, user permissions, access policies, threat modeling.</p></div>
+      <div class="tile"><h3>Certification</h3><p>GSDC Certified Information Security Foundation is locked for students in Sem 1 and planned from Sem 2 onwards.</p></div>
+      <div class="tile"><h3>Final Output</h3><p>Security baseline checklist, evidence folder, threat model and final audit-style report.</p></div>
+    </div>
+  </div>
+
+  <div class="card" id="rubrics">
+    <h2>📊 Project Evaluation Rubric</h2>
+    <table>
+      <tr><th>Criteria</th><th>Weight</th><th>Excellent</th><th>Good</th><th>Needs Work</th></tr>
+      <tr><td>Secure OS Configuration Checklist</td><td><strong>20%</strong></td><td>Complete, evidence-based, CIS-style structure.</td><td>Mostly complete with minor gaps.</td><td>Missing controls or weak proof.</td></tr>
+      <tr><td>User & Permission Hardening</td><td><strong>20%</strong></td><td>Clear least-privilege analysis with screenshots.</td><td>Basic user/group review done.</td><td>Incomplete permission analysis.</td></tr>
+      <tr><td>Password & Access Policies</td><td><strong>15%</strong></td><td>Strong policy with justification and examples.</td><td>Policy prepared but limited justification.</td><td>Generic or unclear policy.</td></tr>
+      <tr><td>Threat Model Documentation</td><td><strong>20%</strong></td><td>Assets, threats, vulnerabilities, risk and controls mapped clearly.</td><td>Basic threat model with some missing links.</td><td>Weak or incomplete risk mapping.</td></tr>
+      <tr><td>Security Report & Evidence</td><td><strong>15%</strong></td><td>Professional report, proper screenshots and remediation plan.</td><td>Readable report with minor formatting issues.</td><td>Poor documentation.</td></tr>
+      <tr><td>Viva & Reflection</td><td><strong>10%</strong></td><td>Confident explanation and ethical security understanding.</td><td>Able to explain most work.</td><td>Unable to justify findings.</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="scripts">
+    <h2>📋 Weekly Faculty Scripts</h2>
+    <table>
+      <tr><th>Week</th><th>Faculty Focus</th><th>Student Output</th></tr>
+      <tr><td>1–2</td><td>Security orientation, CIA triad, OS baseline checklist.</td><td>Project folder, selected system, initial checklist.</td></tr>
+      <tr><td>3–4</td><td>User accounts, groups, permission hardening and password policies.</td><td>User-permission evidence and access policy draft.</td></tr>
+      <tr><td>5–6</td><td>Threat modeling and checkpoint viva.</td><td>Threat model table and viva notes.</td></tr>
+      <tr><td>7–8</td><td>Networking basics, service exposure and evidence quality.</td><td>Network/service evidence with screenshots.</td></tr>
+      <tr><td>9–10</td><td>Git/documentation and risk rating matrix.</td><td>Versioned documentation and risk matrix.</td></tr>
+      <tr><td>11–12</td><td>Report writing and final project submission.</td><td>Final baseline report and complete evidence folder.</td></tr>
+      <tr><td>13–14</td><td>Portfolio review and final viva.</td><td>Final presentation and defence.</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="friday">
+    <h2>🗓️ Friday Doubt Session Guide</h2>
+    <table>
+      <tr><th>Time</th><th>Activity</th><th>Faculty Action</th></tr>
+      <tr><td>0–10 min</td><td>Common doubts</td><td>Collect 3–4 repeated doubts from students.</td></tr>
+      <tr><td>10–20 min</td><td>Live correction</td><td>Show one sample checklist/report and correct it live.</td></tr>
+      <tr><td>20–25 min</td><td>Submission reminder</td><td>Explain weekly upload requirement and file naming.</td></tr>
+      <tr><td>25–30 min</td><td>Next-week briefing</td><td>Tell students what evidence or reading is required next.</td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="submissions">
+    <h2>📤 Submission Tracking Format</h2>
+    <table>
+      <tr><th>Submission</th><th>Files Required</th><th>Faculty Check</th></tr>
+      <tr><td>Weekly Evidence</td><td>Screenshots, checklist updates, reflection.</td><td>Completeness and authenticity.</td></tr>
+      <tr><td>Threat Model</td><td>Assets, threats, vulnerabilities, impact, mitigation.</td><td>Risk logic and clarity.</td></tr>
+      <tr><td>Final Report</td><td>Checklist + evidence + risk rating + recommendations.</td><td>Professional report quality.</td></tr>
+    </table>
+  </div>
+
+  
+</div>
+
+<footer>GJIMT AI Lab LMS · MCA with Information Security & Cyber Defence · Faculty In-charge: Dr. Divya</footer></div><script>
+const LMS_USERS={};
+for(let i=1;i<=10;i++){let id='mcais26-ai-'+String(i).padStart(2,'0');LMS_USERS[id]={name:'MCA InfoSec Student '+i,role:'Student',pwd:'mcais@2026'}}
+LMS_USERS['mcais26-fac-divya']={name:'Dr. Divya',role:'Faculty',pwd:'faculty@2026'};
+LMS_USERS['mcais26-admin']={name:'Admin',role:'Admin',pwd:'admin@2026'};
+function lmsDoLogin(){const uid=document.getElementById('lms-uid').value.trim().toLowerCase();const pwd=document.getElementById('lms-pwd').value;const err=document.getElementById('lms-login-error');if(LMS_USERS[uid]&&LMS_USERS[uid].pwd===pwd){localStorage.setItem('mcais26_user',uid);localStorage.setItem('mcais26_role',LMS_USERS[uid].role);lmsUnlock();}else{err.textContent='Invalid User ID or Password';}}
+function currentRole(){const uid=localStorage.getItem('mcais26_user');return uid&&LMS_USERS[uid]?LMS_USERS[uid].role:'';}
+function lmsUnlock(){const uid=localStorage.getItem('mcais26_user');if(!uid||!LMS_USERS[uid])return;document.getElementById('lms-login-overlay').classList.remove('active');document.getElementById('lms-page-content').classList.add('unlocked');document.getElementById('lms-logout-btn').style.display='block';const u=LMS_USERS[uid];document.getElementById('lms-welcome-bar').style.display='block';document.getElementById('lms-welcome-bar').textContent='Signed in as '+u.name+' · '+u.role;pageAccess();}
+function lmsLogout(){localStorage.removeItem('mcais26_user');localStorage.removeItem('mcais26_role');location.reload();}
+function pageAccess(){const role=currentRole();document.querySelectorAll('.admin-only').forEach(e=>e.style.display=(role==='Admin'||role==='Faculty')?'block':'none');document.querySelectorAll('.student-only').forEach(e=>e.style.display=(role==='Student')?'block':'none');let cert=document.getElementById('certPracticeArea');if(cert)cert.style.display=(role==='Admin'||role==='Faculty')?'flex':'none';if(document.body.dataset.restrict==='faculty'&&role!=='Admin'&&role!=='Faculty'){localStorage.removeItem('mcais26_user');localStorage.removeItem('mcais26_role');document.getElementById('lms-page-content').classList.remove('unlocked');document.getElementById('lms-login-overlay').classList.add('active');document.getElementById('lms-login-error').textContent='Faculty Dashboard is restricted. Please login with Faculty/Admin ID.';}}
+window.addEventListener('DOMContentLoaded',lmsUnlock);
+function gradeMock(prefix,total){let keys={m1:['B','C','B','A','C'],m2:['A','B','C','B','A'],m3:['C','A','B','C','B'],full:['B','C','B','A','C','A','B','C','B','A']};let ans=keys[prefix]||[];let score=0;for(let i=1;i<=total;i++){let checked=document.querySelector('input[name="'+prefix+'_q'+i+'"]:checked');if(checked&&checked.value===ans[i-1])score++;}let box=document.getElementById(prefix+'_result');box.className='result-box '+(score>=Math.ceil(total*.7)?'pass':'fail');box.textContent='Score: '+score+'/'+total+' — '+(score>=Math.ceil(total*.7)?'Pass':'Revise and retry');}
+</script></body></html>
